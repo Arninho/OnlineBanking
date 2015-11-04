@@ -1,8 +1,23 @@
 <?php
+session_start();
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+$GLOBALS['config'] = array(
+    'mysql' => array(
+        'host' =>'',
+        'username' => '',
+        'password' => '',
+        'db' => ''
+    ),
+    'remember' => array(
+        'cookie_name' => 'hash',
+        'cookie_expiry' => 604800
+    ),
+    'session' => array(
+        'session_name' => 'user'
+    )
+);
+spl_autoload_register(function($class){
+    require_once 'classes/' . $class . '.php';
+});
 
+require_once 'functions/sanitize.php';
