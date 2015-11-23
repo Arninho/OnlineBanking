@@ -33,13 +33,13 @@ class User {
         }
         
         
-        if(!$this->_db->update('users',$id,$fields)){
+        if(!$this->_db->update('Users',$id,$fields)){
             throw new Exception('There was a problem updating.');
         }
     }
 
     public function create($fields = array()) {
-        if (!$this->_db->insert('users', $fields)) {
+        if (!$this->_db->insert('Users', $fields)) {
             throw new Exception('There was a problem creating an accont.');
         }
     }
@@ -47,10 +47,10 @@ class User {
     public function find($user = null) {
         if ($user) {
             $field = (is_numeric($user) ? 'id' : 'username');
-            $data = $this->_db->get('users', array($field, '=', $user));
-
+            $data = $this->_db->get('Users', array($field, '=', $user));
+            
             if ($data->count()) {
-                $this->_data = $data->first();
+                $this->_data = $data->result()->fetch_object();
                 return true;
             }
         }
@@ -63,9 +63,9 @@ class User {
             Session::put($this->_sessionName, $this->data()->id);
         } else {
             $user = $this->find($username);
-
+            
             if ($user) {
-                if ($this->data()->password === Hash::make($password, $this->data()->salt)) {
+                if ($this->data()->Password === Hash::make($password, $this->data()->Salt )) {
                     Session::put($this->_sessionName, $this->data()->id);
                     if ($remember) {
                         $hash = Hash::unique();

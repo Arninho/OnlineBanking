@@ -25,17 +25,27 @@ class DB{
     
     public function query($sql,$params = array()){
         $this->error = false;
+        //mysqli_report(MYSQLI_REPORT_ALL);
         if($this->_query = $this->_con->prepare($sql)){
-            $index = 1;
+            $types = '';   
             if(count($params)){
                 foreach($params as $param){
-                    $this->_query->bindValue($index, $param);
-                    $index++;
+                     if(is_int($param)) {
+                        $types .= 'i';              //integer
+                    } elseif (is_float($param)) {
+                        $types .= 'd';              //double
+                    } elseif (is_string($param)) {
+                        $types .= 's';              //string
+                    } else {
+                        $types .= 'b';              //blob and unknown
+                    }
                 }
+                array_unshift($params, $types);
+                call_user_func_array(array($this->_query,'bind_param'), $this->makeValuesReferenced($params));
             }
             if($this->_query->execute()){
-                $this->_results = $this->_query->fetch(mysqli::FETCH_OBJ);
-                $this->_count = $this->_query->rowCount();
+                $this->_results = $this->_query->get_result();
+                $this->_count = $this->_results->num_rows;
             }
             else{
                 $this->_error = true;
@@ -79,7 +89,7 @@ class DB{
             foreach ($fields as $field){
                 $values .= '?';
                 if($index <count($fields)){
-                    $valuse .=', ';
+                    $values .=', ';
                 }
                 $index++;
             }
@@ -125,4 +135,16 @@ class DB{
     public function count(){
         return $this->_count;
     }
+    
+    private function makeValuesReferenced(&$array)
+    {
+        $refs = array();
+        foreach($array as $key => $value){
+            $refs[$key] = &$array[$key];
+        }
+            
+        return $refs;
+    }
 }
+
+

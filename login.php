@@ -39,7 +39,7 @@ if (Input::exists()) {
     </div>
     <div class="field">
         <label for="remember">
-            <input type="checkbox" name="remember" id="remember">Remember me 
+            <input type="checkbox" name="remember" id="remember">Emlékezz rám 
         </label>
     </div>
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" >

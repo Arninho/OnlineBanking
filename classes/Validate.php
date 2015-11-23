@@ -34,7 +34,7 @@ class Validate{
                             }
                             break;
                         case 'unique':
-                            $check = $this->_db->get($rule_value,array('$item','=', $value));
+                            $check = $this->_db->get($rule_value,array($item,'=', $value));
                             if($check->count()){
                                 $this->addError("{$rules['name']} már létezik!");
                             }

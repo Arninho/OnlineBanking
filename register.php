@@ -10,7 +10,7 @@ if(Input::exists()){
                 'required' => true,
                 'min' => 2,
                 'max' => 20,
-                'unique' => 'users'
+                'unique' => 'Users'
             ),
             'password' => array(
                 'name' => 'Jelszó',
@@ -33,7 +33,13 @@ if(Input::exists()){
                 'required' => true,
                 'min' => 2,
                 'max' => 50,
-                'unique' => 'users'
+            ),
+            'email' => array(
+                'name' => 'Email cím',
+                'required' => true,
+                'min' => 2,
+                'max' => 50,
+                'unique' => 'Users'
             ),
         ));
 
@@ -45,6 +51,7 @@ if(Input::exists()){
                 $user->create(array(
                     'UserName' => Input::get('username'),
                     'Password' => Hash::make(Input::get('password'), $salt),
+                    'Salt' => $salt,
                     'FirstName' => Input::get('firstname'),
                     'LastName' => Input::get('lastname'),
                     'Email' => Input::get('email'),
