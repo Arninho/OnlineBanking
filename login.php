@@ -10,9 +10,9 @@ if (Input::exists()) {
 
         if ($validation->passed()) {
             $user = new User();
-            
-            $remember=(Input::get('remember')==='on')? true:false;
-            $login = $user->login(Input::get('username'), Input::get('password'),$remember);
+
+            $remember = (Input::get('remember') === 'on') ? true : false;
+            $login = $user->login(Input::get('username'), Input::get('password'), $remember);
 
             if ($login) {
                 echo Redirect::to('index.php');
@@ -27,21 +27,32 @@ if (Input::exists()) {
     }
 }
 ?>
-<form action="" method="post">
-    <div class="field">
-        <label for="username">Felhasználónév</label>
-        <input type="text" name="username" id="username" autocomplete="off">
-    </div>
+<head>
+    <title>Bejelentkezés</title>
+</head>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4 col-lg offset-4 col-sm-6 col-sm-offset-3 col-xs-12 text-center">
+            <form action="" method="post">
+                <div class="field form-group">
+                    <label for="username">Felhasználónév</label>
+                    <input type="text" class="form-control" name="username" id="username" autocomplete="off">
+                </div>
 
-    <div class="field">
-        <label for="password">Jelszó</label>
-        <input type="password" name="password" id="password" autocomplete="off">
+                <div class="field form-group">
+                    <label for="password">Jelszó</label>
+                    <input type="password" class="form-control" name="password" id="password" autocomplete="off">
+                </div>
+
+                <div class="field form-group">
+                    <label for="remember">
+                        <input type="checkbox" name="remember" id="remember">
+                        <span>Emlékezz rám</span>
+                    </label>
+                </div>
+                <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" >
+                <button type="submit" class="btn btn-warning btn-block">Bejelentkezés</button>
+            </form>
+        </div>
     </div>
-    <div class="field">
-        <label for="remember">
-            <input type="checkbox" name="remember" id="remember">Emlékezz rám 
-        </label>
-    </div>
-    <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" >
-    <input type="submit" value="Log in">
-</form>
+</div>

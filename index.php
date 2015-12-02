@@ -5,10 +5,10 @@ if(Session::exists('home')){
 echo '<p>' . Session::flash('home') . '</p>';
 }
 
-$user=new User();
+$user = new User();
 if($user->isLoggedIn()){
  ?>
-<p>Hello <a href="#"><?php echo escape($user->data()->Username)?></a>!</p>
+<p>Hello <a href="#"><?php echo escape($user->data()->UserName)?></a>!</p>
 
 <ul>
     <li><a href="logout.php">Log out</a></li>
@@ -17,4 +17,3 @@ if($user->isLoggedIn()){
 } else{
     echo '<p><a href="login.php">Bejelentkezés</a> vagy <a href="register.php">regisztrálás</a></p>';
 }
-?>

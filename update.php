@@ -10,7 +10,7 @@ if(Input::exists()){
     if(Token::check(Input::get('token'))){
         $validate=new Validate();
         $validation=$validate->check($_POST, array(
-            'name'=>array(
+            'firstname'=>array(
                 'required'=>true,
                 'min'=>2,
                 'max'=>50
@@ -19,7 +19,7 @@ if(Input::exists()){
         if($validation->passed()){
             try{
                 $user->update(array(
-                    'name'=>  Input::get('name')
+                    'FirstName'=>  Input::get('firstname')
                 ));
                 Session::flash('home','Your details have been updated.');
                 Redirect::to('index.php');
@@ -37,8 +37,8 @@ if(Input::exists()){
 
 <form action="" method="post">
     <div class="field">
-        <label for="name">Name</label>
-        <input type="text" name="name" value="<?php echo escape($user->data()->name);?>">
+        <label for="name">FirstName</label>
+        <input type="text" name="firstname" value="<?php echo escape($user->data()->FirstName);?>">
         
         <input type="submit" value="Update">
         <input type="hidden" name="token" value="<?php echo Token::generate();?>">

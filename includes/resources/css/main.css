@@ -1,0 +1,18 @@
+body{
+    background-color: #D2D7D3;
+}
+.site-head{
+    background-color: #87D37C;
+    margin-bottom: 15px;
+}
+.registerForm{
+    background-color: #4DAF7C;
+    width: 60%;
+    margin:auto;
+    padding: 15px;
+    border: 1px solid #6C7A89;
+}
+
+.small-btn{
+    width: 20%;
+}

@@ -1,4 +1,5 @@
 <?php
+
 class User {
 
     private $_db,
@@ -16,7 +17,7 @@ class User {
             if (Session::exists($this->_sessionName)) {
                 $user = Session::get($this->_sessionName);
                 if ($this->find($user)) {
-                    $this->isLoggedIn = true;
+                    $this->_isLoggedIn = true;
                 } else {
                     //logout
                 }
@@ -26,29 +27,29 @@ class User {
         }
     }
 
-    public function update($fields=array(),$id=null){
-        
-        if(!$id && $this->isLoggedIn()){
-            $id=  $this->data()->id;
+    public function update($fields = array(), $id = null) {
+
+        if (!$id && $this->isLoggedIn()) {
+            $id = $this->data()->ID;
         }
-        
-        
-        if(!$this->_db->update('Users',$id,$fields)){
+
+
+        if (!$this->_db->update('users', $id, $fields)) {
             throw new Exception('There was a problem updating.');
         }
     }
 
     public function create($fields = array()) {
-        if (!$this->_db->insert('Users', $fields)) {
+        if (!$this->_db->insert('users', $fields)) {
             throw new Exception('There was a problem creating an accont.');
         }
     }
 
     public function find($user = null) {
         if ($user) {
-            $field = (is_numeric($user) ? 'id' : 'username');
-            $data = $this->_db->get('Users', array($field, '=', $user));
-            
+            $field = (is_numeric($user) ? 'ID' : 'UserName');
+            $data = $this->_db->get('users', array($field, '=', $user));
+
             if ($data->count()) {
                 $this->_data = $data->result()->fetch_object();
                 return true;
@@ -60,23 +61,23 @@ class User {
     public function login($username = null, $password = null, $remember = false) {
         $user = $this->find($username);
         if (!$username && !$password && $this->exists()) {
-            Session::put($this->_sessionName, $this->data()->id);
+            Session::put($this->_sessionName, $this->data()->ID);
         } else {
             $user = $this->find($username);
-            
+
             if ($user) {
-                if ($this->data()->Password === Hash::make($password, $this->data()->Salt )) {
-                    Session::put($this->_sessionName, $this->data()->id);
+                if ($this->data()->Password === Hash::make($password, $this->data()->Salt)) {
+                    Session::put($this->_sessionName, $this->data()->ID);
                     if ($remember) {
                         $hash = Hash::unique();
-                        $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
+                        $hashCheck = $this->_db->get('users_session', array('User_ID', '=', $this->data()->ID));
                         if (!$hashCheck->count()) {
                             $this->_db->insert('users_session', array(
-                                'user_id' => $this->data()->id,
-                                'hash' => $hash
+                                'User_ID' => $this->data()->ID,
+                                'Hash' => $hash
                             ));
                         } else {
-                            $hash = $hashCheck->first()->hash;
+                            $hash = $hashCheck->first()->Hash;
                         }
                         Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
                     }
@@ -92,7 +93,7 @@ class User {
     }
 
     public function logout() {
-        $this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
+        $this->_db->delete('users_session', array('User_ID', '=', $this->data()->ID));
         Session::delete($this->_sessionName);
         Cookie::delete($this->_cookieName);
     }
