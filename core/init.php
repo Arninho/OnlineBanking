@@ -10,13 +10,7 @@ echo '<head>
   <script src="includes/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="cointainer-fluid">
-    <div class="row">
-        <div class="col-xs-12 text-center site-head"> 
-        <h1><i class="fa fa-university"> zaBank - Mivel online minden gyorsabb!</i></h1>
-        </div>
-    </div>
-</div>
+
 </body>';
 session_start();
 

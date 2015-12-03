@@ -11,7 +11,7 @@ if($user->isLoggedIn()){
 <p>Hello <a href="#"><?php echo escape($user->data()->UserName)?></a>!</p>
 
 <ul>
-    <li><a href="logout.php">Log out</a></li>
+    <li><a href="logout.php">Kijelentkezés</a></li>
 </ul>    
 <?php
 } else{
