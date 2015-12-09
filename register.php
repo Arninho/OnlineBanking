@@ -70,6 +70,7 @@ if (Input::exists()) {
 }
 ?>
 <head>
+    <?php include 'header.php';?>
     <title>Regisztráció</title>
 </head>
 <div class="container">

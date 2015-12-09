@@ -28,6 +28,7 @@ if (Input::exists()) {
 }
 ?>
 <head>
+    <?php include 'header.php';?>
     <title>Bejelentkezés</title>
 </head>
 <div class="container">
