@@ -11,7 +11,7 @@
  <?php
  $user=new User();
  if($user->isLoggedIn()){
-     
+     include 'menu.php';   
  }
  ?>
 </body>

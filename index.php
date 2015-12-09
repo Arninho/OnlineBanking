@@ -4,7 +4,7 @@ require_once 'core/init.php';
 if(Session::exists('home')){
 echo '<p>' . Session::flash('home') . '</p>';
 }
-
+include 'layout.php';
 $user = new User();
 if($user->isLoggedIn()){
  ?>
@@ -12,8 +12,10 @@ if($user->isLoggedIn()){
 
 <ul>
     <li><a href="logout.php">Kijelentkezés</a></li>
-</ul>    
+</ul>
+
 <?php
+
 } else{
     echo '<p><a href="login.php">Bejelentkezés</a> vagy <a href="register.php">regisztrálás</a></p>';
 }

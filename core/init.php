@@ -16,10 +16,10 @@ session_start();
 
 $GLOBALS['config'] = array(
     'mysql' => array(
-        'host' => '',
-        'username' => '',
-        'password' => '',
-        'db' => ''
+        'host' => 'MYSQL5013.myASP.NET',
+        'username' => '9e3f27_obank',
+        'password' => 'zabanking',
+        'db' => 'db_9e3f27_obank'
     ),
     'remember' => array(
         'cookie_name' => 'hash',
