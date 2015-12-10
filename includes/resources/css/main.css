@@ -2,7 +2,8 @@ body{
     background-color: #D2D7D3;
 }
 .site-head{
-    background-color: #87D37C;
+    background-color: #16A085;
+    border-bottom: 1px solid #fff;
     margin-bottom: 15px;
 }
 .registerForm{
@@ -13,6 +14,68 @@ body{
     border: 1px solid #6C7A89;
 }
 
+.transcationForm{
+    background-color: #4DAF7C;
+    padding: 15px;
+    border: 1px solid #6C7A89;
+}
+
 .small-btn{
     width: 20%;
+}
+
+.noresize{
+    resize: none;
+}
+.welcome{
+    text-align: center;
+    font-size: 1.3em;
+}
+.logOut{
+    padding-top: 10px;
+    text-align: center;
+    font-size: 1.3em;
+}
+.logOut i, .welcome i{
+    margin-right: 5px;
+}
+.welcome a, .logOut a{
+    color: black;
+}
+.content{
+    float: right;
+    padding: 0 15px;
+    width: 75%;
+}
+.menu{
+    margin-top: -15px;
+    float: left;
+    padding: 15px 0;
+    width: 25%;
+    background-color: #16A085;
+}
+.menu ul{
+    margin-bottom: 0;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+.menu ul li a{
+    text-decoration: none;
+    color: white;
+    padding: 10.5px 11px;
+    background-color: #005555;
+    display: block;
+}
+.menu ul li a i{
+    margin-right: 5px;
+}
+ 
+.menu ul li a:hover {
+    text-align: center;
+    color: #8F1D21;
+    background-color: #87D37C;
+}
+.nav{
+    padding:0;
 }

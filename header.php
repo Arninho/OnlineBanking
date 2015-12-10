@@ -1,4 +1,4 @@
-<?php ?>
+<div class="siteheader">
     <div class="cointainer-fluid">
         <div class="row">
             <div class="col-xs-12 text-center site-head"> 
@@ -6,3 +6,5 @@
             </div>
         </div>
     </div>
+</div>
+
