@@ -13,8 +13,12 @@ body{
     padding: 15px;
     border: 1px solid #6C7A89;
 }
+    
+.index-welcome{
+    font-size: 1.5em;
+}
 
-.transcationForm{
+.transcationForm, .updateform{
     background-color: #4DAF7C;
     padding: 15px;
     border: 1px solid #6C7A89;

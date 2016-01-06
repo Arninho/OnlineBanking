@@ -44,6 +44,12 @@ class User {
             throw new Exception('There was a problem creating an accont.');
         }
     }
+    
+    public function send($fields = array()) {
+        if (!$this->_db->insert('accountitems', $fields)) {
+            throw new Exception('There was a problem with inserting transactionitem.');
+        }
+    }
 
     public function find($user = null) {
         if ($user) {
@@ -56,6 +62,49 @@ class User {
             }
         }
         return false;
+    }
+    
+    public function getTranByUserID($userid){
+        if ($userid) {
+            $data = $this->_db->getID('transaction', array('User_ID', '=', $userid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
+    }
+    public function getAccByUserID($userid){
+        if ($userid) {
+            $data = $this->_db->getID('accounts', array('User_ID', '=', $userid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
+    }
+    public function getUserByAccID($accid){
+        if ($accid) {
+            $data = $this->_db->getUserID('accounts', array('ID', '=', $accid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
+    }
+
+
+    public function getAccByCode($code){
+         if ($code) {
+            $data = $this->_db->getID('accounts', array('Code', '=', $code));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
     }
 
     public function login($username = null, $password = null, $remember = false) {

@@ -3,6 +3,57 @@ require_once 'core/init.php';
 
 $user = new User();
 
+if (Input::exists()) {
+    if (Token::check(Input::get('token'))) {
+        $validate = new Validate();
+        $validation = $validate->check($_POST, array(
+            'amount' => array(
+                'name' => 'Összeg',
+                'required' => true,
+                'min' => 1
+            ),
+            'description' => array(
+                'name' => 'Leírás',
+                'required' => true,
+                'min' => 7
+            ),
+        ));
+        if ($validation->passed()) {
+            $transactionid = $user->getTranByUserID($user->data()->ID);
+            $toaccid = $user->getAccByCode(Input::get('accountid'));
+            $touserid = $user->getUserByAccID($toaccid);
+            $totranid = $user->getTranByUserID($touserid);
+            $senderaccid = $user->getAccByUserID($user->data()->ID);
+            if($toaccid != 0){
+                $user->send(array(
+                    'Transaction_ID' => $transactionid,
+                    'Account_ID' => $toaccid,
+                    'When' => date(DATE_ATOM),
+                    'Amount' => Input::get('amount'),
+                    'IsIncome' => false,
+                    'Description' => Input::get('description')
+                ));
+                $user->send(array(
+                    'Transaction_ID' => $totranid,
+                    'Account_ID' => $senderaccid,
+                    'When' => date(DATE_ATOM),
+                    'Amount' => Input::get('amount'),
+                    'IsIncome' => true,
+                    'Description' => Input::get('description')
+                ));
+                Session::flash('home', 'Tranzakció sikeresen végrehajtva !');
+                Redirect::to('index.php');
+            }else{
+                echo 'Tranzakció sikertelen!';
+            }
+        } else {
+            foreach ($validation->errors()as $error) {
+                echo $error, '<br>';
+            }
+        }
+    }
+}
+
 if (!$user->isLoggedIn()) {
     Redirect::to('index.php');
 } else {
@@ -78,13 +129,13 @@ if (!$user->isLoggedIn()) {
     jQuery(document).ready(function(){
         jQuery('#ddlAccountTypes').on('change', function(){
             var lAccountType = jQuery('#ddlAccountTypes').val();
-            if(lAccountType == 'none'){
+            if(lAccountType === 'none'){
                 jQuery('#accountDiv').hide();
                 jQuery('#contactDiv').hide();
-            }else if(lAccountType == 'accountid'){
+            }else if(lAccountType === 'accountid'){
                 jQuery('#accountDiv').show();
                 jQuery('#contactDiv').hide();
-            }else if(lAccountType == 'contact'){
+            }else if(lAccountType === 'contact'){
                 jQuery('#accountDiv').hide();
                 jQuery('#contactDiv').show();
             }

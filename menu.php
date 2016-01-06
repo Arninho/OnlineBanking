@@ -5,7 +5,7 @@ $user = new User();
 if ($user->isLoggedIn()) {  
     ?>
 <div class="welcome">
-    <p class="welcome"><i class="fa fa-flag"></i>Hello <a href="#"><?php echo escape($user->data()->UserName) ?></a>!</p>
+    <p class="welcome"><i class="fa fa-flag"></i>Isten hozta <a href="#"><?php echo escape($user->data()->UserName) ?></a>!</p>
 </div>
         <div class="nav">
             <ul>
@@ -13,18 +13,13 @@ if ($user->isLoggedIn()) {
                     <a href="index.php?menu=0"><i class="fa fa-user"></i>Otthon</a>
                 </li>
                 <li>
-                    <a href="index.php?menu=1"><i class="fa fa-user"></i>Névmódosítás</a>
+                    <a href="index.php?menu=1"><i class="fa fa-user"></i>Profil</a>
                 </li>
                 <li>
-                    <a href="index.php?menu=2"><i class="fa fa-user"></i>Jelszómódosítás</a>
+                    <a href="index.php?menu=2"><i class="fa fa-paper-plane"></i>Kapcsolatok</a>
                 </li>
-
                 <li>
-                    <a href="index.php?menu=3"><i class="fa fa-user"></i>Profil</a>
-                </li>
-
-                <li>
-                    <a href="index.php?menu=4"><i class="fa fa-paper-plane"></i>Tranzakciok</a>
+                    <a href="index.php?menu=3"><i class="fa fa-paper-plane"></i>Tranzakciok</a>
                 </li>
             </ul>
         </div>  
@@ -39,11 +34,9 @@ if ($user->isLoggedIn()) {
         switch ($_GET['menu']) {
             case 1: include("update.php");
                 break;
-            case 2: include("changepassword.php");
+            case 2: include("newcontact.php");
                 break;
-            case 3: include("profile.php");
-                break;
-            case 4: include("transaction.php");
+            case 3: include("transaction.php");
                 break;
             default: include("profile.php");
                 break;
