@@ -10,29 +10,17 @@ if (Input::exists()) {
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'firstname' => array(
-                'required' => true,
+                'name' => 'Keresztnév',
+                'required' => false,
                 'min' => 2,
                 'max' => 50
             ),
             'lastname' => array(
-                'required' => true,
+                'name' => 'Vezetéknév',
+                'required' => false,
                 'min' => 2,
                 'max' => 50
-            ),
-            'password_current' => array(
-                'required' => true,
-                'min' => 6
-            ),
-            'password_new' => array(
-                'required' => true,
-                'min' => 6
-            ),
-            'password_new_again' => array(
-                'required' => true,
-                'min' => 6,
-                'matches' => 'password_new'
-            ),
-        ));
+            ),));
         if ($validation->passed()) {
             try {
                 $user->update(array(
@@ -44,17 +32,7 @@ if (Input::exists()) {
                     'LastName' => Input::get('lastname')
                 ));
                 Session::flash('home', 'Név megváltoztatval !');
-                if (Hash::make(Input::get('password_current'), $user->data()->Salt) !== $user->data()->Password) {
-                    
-                } else {
-                    $salt = Hash::salt(32);
-                    $user->update(array(
-                        'Password' => Hash::make(Input::get('password_new'), $salt),
-                        'Salt' => $salt
-                    ));
-                    Session::flash('home', 'Jelszó megváltóztatva !');
-                }
-                Redirect::to('index.php');
+               
             } catch (Exception $e) {
                 die($e->getMessage());
             }
@@ -63,7 +41,51 @@ if (Input::exists()) {
                 echo $error, '<br>';
             }
         }
+
+        if (Input::get('password_current') != null) {
+            $passvalidation = $validate->check($_POST, array(
+                'password_current' => array(
+                    'name' => 'Jelenlegi jelszó',
+                    'required' => true,
+                    'min' => 6
+                ),
+                'password_new' => array(
+                    'name' => 'Új jelszó',
+                    'required' => true,
+                    'min' => 6
+                ),
+                'password_new_again' => array(
+                    'name' => 'Új jelszó mégegyszer',
+                    'required' => true,
+                    'min' => 6,
+                    'matches' => 'password_new'
+                ),
+            ));
+            if ($passvalidation->passed()) {
+                try {
+
+                    if (Hash::make(Input::get('password_current'), $user->data()->Salt) !== $user->data()->Password) {
+                        
+                    } else {
+                        $salt = Hash::salt(32);
+                        $user->update(array(
+                            'Password' => Hash::make(Input::get('password_new'), $salt),
+                            'Salt' => $salt
+                        ));
+                        Session::flash('home', 'Jelszó megváltóztatva !');
+                    }
+                    
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                foreach ($passvalidation->errors()as $error) {
+                    echo $error, '<br>';
+                }
+            }
+        }
     }
+    if($validation->passed() || $passvalidation->passed()){Redirect::to('index.php');}
 }
 ?>
 <div class='updateform'>
@@ -79,7 +101,7 @@ if (Input::exists()) {
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="col-md-6">
                         <div class="field form-group">
                             <div>
@@ -108,7 +130,7 @@ if (Input::exists()) {
 
                         </div>
                     </div>
-                
+
                     <div class="col-md-6">
                         <div class="field form-group">
                             <label for="password_new_again">Új jelszó mégegyszer:</label>

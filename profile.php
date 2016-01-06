@@ -11,7 +11,9 @@ if (!isset($username)) {
         $data = $user->data();
     }
     ?>
-    <h3><?php echo escape($data->UserName); ?></h3>
-    <p> Full name:<?php echo escape($data->FirstName) . ' ' . escape($data->LastName); ?></p>
+<div class="profilform">
+        <h1>Felhasználónév : <?php echo escape($data->UserName); ?></h1>
+        <h3> Teljes Név : <?php echo escape($data->FirstName) . ' ' . escape($data->LastName); ?></h3>
+    </div>  
     <?php
 }

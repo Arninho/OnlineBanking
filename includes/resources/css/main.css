@@ -18,7 +18,7 @@ body{
     font-size: 1.5em;
 }
 
-.transcationForm, .updateform{
+.transcationForm, .updateform, .profilform{
     background-color: #4DAF7C;
     padding: 15px;
     border: 1px solid #6C7A89;
