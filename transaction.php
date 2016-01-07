@@ -90,7 +90,7 @@ if (!$user->isLoggedIn()) {
                                     <option <?php echo Input::get('ddlMyAccounts') == "" ? 'selected' : ''; ?> value="">-- Vállaszon --</option>
                                     <?php
                                     while($row = mysqli_fetch_array($user->getAccounts($user->data()->ID))) {
-                                        echo "<option". Input::get('ddlMyAccounts') == "" ? 'selected' : ''. " value='$row[$ID]'>$row[$ID]</option>";
+                                        echo "<option". Input::get('ddlMyAccounts') == "" ? 'selected' : ''. " value='".$row["$ID"]."'>".$row["$ID"]."</option>";
                                     } ?>
                                 </select>
                             </div>
