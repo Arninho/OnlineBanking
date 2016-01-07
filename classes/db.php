@@ -81,6 +81,10 @@ class DB {
         return $this->action('SELECT ID', $table, $where);
     }
     
+    public function getCode($table, $where){
+        return $this->action('SELECT Code', $table, $where);
+    }
+    
     public function getUserID($table, $where){
         return $this->action('SELECT User_ID', $table, $where);
     }

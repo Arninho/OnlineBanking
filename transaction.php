@@ -31,13 +31,13 @@ if (Input::exists()) {
             $transactionid = $user->getTranByAccID(Input::get('ddlMyAccounts'));
             if(Input::get('ddlAccountTypes') == "accountid"){
             $toaccid = $user->getAccByCode(Input::get('accountid'));
-            $totranid = $user->getTranByAccID($toaccid);
+            $totranid = $user->getTranByAccID($toaccid->ID);
             }
             else if(Input::get('ddlAccountTypes') == "contact"){
                 $toaccid = $user->getAccByUserID(Input::get('ddlContacts'));
-                $totranid = $user->getTranByAccID(Input::get('ddlContacts'));
+                $totranid = $user->getTranByAccID($toaccid->ID);
             }
-            $senderaccid = $user->getAccByUserID(Input::get('ddlMyAccounts'));
+            $senderaccid = Input::get('ddlMyAccounts');
             if($toaccid != 0){
                 $user->send(array(
                     'Transaction_ID' => $transactionid->ID,
@@ -49,7 +49,7 @@ if (Input::exists()) {
                 ));
                 $user->send(array(
                     'Transaction_ID' => $totranid->ID,
-                    'Account_ID' => $senderaccid->ID,
+                    'Account_ID' => Input::get('ddlMyAccounts'),
                     'When' => date(DATE_ATOM),
                     'Amount' => Input::get('amount'),
                     'IsIncome' => 1,

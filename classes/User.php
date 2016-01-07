@@ -96,6 +96,17 @@ class User {
         }
         return 0;
     }
+    
+    public function getAccByID($accid){
+        if ($accid) {
+            $data = $this->_db->getCode('accounts', array('ID', '=', $accid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
+    }
 
     public function getTranByAccID($accid){
         if ($accid) {
