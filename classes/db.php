@@ -84,6 +84,10 @@ class DB {
     public function getUserID($table, $where){
         return $this->action('SELECT User_ID', $table, $where);
     }
+    
+    public function getAmount($table, $where){
+        return $this->action('SELECT Amount', $table, $where);
+    }
 
     public function delete($table, $where) {
         return $this->action('DELETE', $table, $where);

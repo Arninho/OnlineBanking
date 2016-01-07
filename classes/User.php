@@ -64,6 +64,17 @@ class User {
         return false;
     }
     
+    public function getAccAmount($accid){
+        if ($accid) {
+            $data = $this->_db->getAmount('accounts', array('ID', '=', $accid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
+    }
+
     public function getTranByUserID($userid){
         if ($userid) {
             $data = $this->_db->getID('transaction', array('User_ID', '=', $userid));

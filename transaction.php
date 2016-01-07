@@ -7,6 +7,14 @@ if (Input::exists()) {
     if (Token::check(Input::get('token'))) {
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
+            'ddlMyAccounts' =>array(
+                'name' => "Saját számla",
+                'required' => true
+            ),
+            'ddlAccountTypes' =>array(
+                'name' => "Tipus",
+                'required' => true
+            ),
             'amount' => array(
                 'name' => 'Összeg',
                 'required' => true,
@@ -19,11 +27,18 @@ if (Input::exists()) {
             ),
         ));
         if ($validation->passed()) {
+            if(Input::get('amount') <= $user->getAccAmount(Input::get('ddlMyAccounts'))){
             $transactionid = $user->getTranByUserID($user->data()->ID);
+            if(Input::get('ddlAccountTypes') == "accountid"){
             $toaccid = $user->getAccByCode(Input::get('accountid'));
             $touserid = $user->getUserByAccID($toaccid);
             $totranid = $user->getTranByUserID($touserid);
-            $senderaccid = $user->getAccByUserID($user->data()->ID);
+            }
+            else if(Input::get('ddlAccountTypes') == "contact"){
+                $toaccid = $user->getAccByUserID(Input::get('ddlContacts'));
+                $totranid = $user->getTranByUserID(Input::get('ddlContacts'));
+            }
+            $senderaccid = $user->getAccByUserID(Input::get('ddlMyAccounts'));
             if($toaccid != 0){
                 $user->send(array(
                     'Transaction_ID' => $transactionid,
@@ -44,7 +59,11 @@ if (Input::exists()) {
                 Session::flash('home', 'Tranzakció sikeresen végrehajtva !');
                 Redirect::to('index.php');
             }else{
-                echo 'Tranzakció sikertelen!';
+                echo 'Tranzakció sikertelen! Ellenőrizze a megadott információkat!';
+            }
+            }
+            else{
+                echo 'Nincs elég pénz a számláján!!!';
             }
         } else {
             foreach ($validation->errors()as $error) {
@@ -66,9 +85,10 @@ if (!$user->isLoggedIn()) {
                     <div class="row">
                         <div class="col-md-3">
                             <div class="field form-group">
-                                <label for="ddlMyAccounts">Honnat:</label>
-                                <select id="ddlMyAccounts" class="form-control">
-                                    <option value="none">-- Vállaszon --</option>
+                                <label for="ddlMyAccounts">Saját számla:</label>
+                                <select id="ddlMyAccounts" name="ddlMyAccounts" class="form-control">
+                                    <option <?php echo Input::get('ddlMyAccounts') == "" ? 'selected' : ''; ?> value="">-- Vállaszon --</option>
+                                    <option <?php echo Input::get('ddlMyAccounts') == "1" ? 'selected' : ''; ?> value="1">-- ezzz --</option>
                                 </select>
                             </div>
                         </div>
@@ -76,11 +96,11 @@ if (!$user->isLoggedIn()) {
                     <div class="row">
                         <div class="col-md-6">
                             <div class="field form-group">
-                                <label for="ddlAccountTypes">Hova:</label>
-                                <select id="ddlAccountTypes" class="form-control">
-                                    <option value="none">-- Vállaszon --</option>
-                                    <option value="accountid">Számla</option>
-                                    <option value="contact">Kapcsolat</option>
+                                <label for="ddlAccountTypes">Tipus:</label>
+                                <select id="ddlAccountTypes" name="ddlAccountTypes" class="form-control">
+                                    <option <?php echo Input::get('ddlAccountTypes') == "" ? 'selected' : ''; ?> value="">-- Vállaszon --</option>
+                                    <option <?php echo Input::get('ddlAccountTypes') == "accountid" ? 'selected' : ''; ?> value="accountid">Számla</option>
+                                    <option <?php echo Input::get('ddlAccountTypes') == "contact" ? 'selected' : ''; ?> value="contact">Kapcsolat</option>
                                 </select>
                             </div>
                         </div>
@@ -96,7 +116,7 @@ if (!$user->isLoggedIn()) {
                             <div class="col-md-6">
                                 <div class="field form-group">
                                     <label for="contact">Személy:</label>
-                                    <select id='ddlContacts' class="form-control"></select>
+                                    <select id='ddlContacts' name="ddlContacts" class="form-control"></select>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +125,7 @@ if (!$user->isLoggedIn()) {
                         <div class="col-md-6">
                             <div class="field form-group">
                                 <label for="description">Leírás:</label>
-                                <textarea class="form-control noresize" rows="3" name="description" id="description" value="<?php echo escape(Input::get('description')); ?>"></textarea>
+                                <textarea class="form-control noresize" rows="3" name="description" id="description"></textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -127,9 +147,21 @@ if (!$user->isLoggedIn()) {
     </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
+        jQuery('textarea#description').val('<?php echo escape(Input::get('description')); ?>');
+        var lAccountType = jQuery('#ddlAccountTypes').val();
+            if(lAccountType === ''){
+                jQuery('#accountDiv').hide();
+                jQuery('#contactDiv').hide();
+            }else if(lAccountType === 'accountid'){
+                jQuery('#accountDiv').show();
+                jQuery('#contactDiv').hide();
+            }else if(lAccountType === 'contact'){
+                jQuery('#accountDiv').hide();
+                jQuery('#contactDiv').show();
+            }
         jQuery('#ddlAccountTypes').on('change', function(){
             var lAccountType = jQuery('#ddlAccountTypes').val();
-            if(lAccountType === 'none'){
+            if(lAccountType === ''){
                 jQuery('#accountDiv').hide();
                 jQuery('#contactDiv').hide();
             }else if(lAccountType === 'accountid'){

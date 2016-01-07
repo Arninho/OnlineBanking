@@ -10,13 +10,13 @@ if ($user->isLoggedIn()) {
         <div class="nav">
             <ul>
                 <li>
-                    <a href="index.php?menu=0"><i class="fa fa-user"></i>Otthon</a>
+                    <a href="index.php?menu=0"><i class="fa fa-home"></i>Otthon</a>
                 </li>
                 <li>
                     <a href="index.php?menu=1"><i class="fa fa-user"></i>Profil</a>
                 </li>
                 <li>
-                    <a href="index.php?menu=2"><i class="fa fa-paper-plane"></i>Kapcsolatok</a>
+                    <a href="index.php?menu=2"><i class="fa fa-smile-o"></i>Kapcsolatok</a>
                 </li>
                 <li>
                     <a href="index.php?menu=3"><i class="fa fa-paper-plane"></i>Tranzakciok</a>
