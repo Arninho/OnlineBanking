@@ -75,12 +75,12 @@ class User {
         return $data->result();
     }
     
-    public function getTansactions($tranid){
+    public function getTransactions($tranid){
      if ($tranid) {
             $data = $this->_db->get('transactionitems', array('Transaction_ID', '=', $tranid));
 
             if ($data->count()) {
-               return $data->result();
+               return $data->result()->fetch_all();
             }
         }
         return $data->result();

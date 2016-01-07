@@ -28,14 +28,15 @@ if (!isset($username)) {
   </thead>
   <tbody>
       <?php
-        $transactions = $user->getTransactions($user->getTranByAccID($user->getAccByUserID($user->data()->ID)->ID));
+      $accid = $user->getAccByUserID($user->data()->ID);
+      $tranid = $user->getTranByAccID($accid->ID);
+        $transactions = $user->getTransactions($tranid->ID);
         for($i = 0; $i < count($transactions);$i++){
             echo '<tr>
-                    <th scope="row">1</th>
-                    <td>'. $transactions[$i][5] .' </td>
+                    <th scope="row">'.($i+1).'</th><td></td>
+                    <td>'. ($transactions[$i][5] == 0 ? 'ki' : 'be') .' </td>
                     <td>'. $transactions[$i][2] .'</td>
                     <td>'. $transactions[$i][4]. '</td>
-                    <td>@mdo</td>
                   </tr>';
         }
     ?>
