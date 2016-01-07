@@ -27,27 +27,18 @@ if (!isset($username)) {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td> <?php echo $data->UserName; ?></td>
-      <td>Otto</td>
-      <td> <?php echo $user->getTansactions($trans); ?></td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td> <?php echo escape($data->UserName); ?></td>
-      <td>Thornton</td>
-      <td>@fat</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td> <?php echo escape($data->UserName); ?></td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-      <td>@mdo</td>
-    </tr>
+      <?php
+        $transactions = $user->getTransactions($user->getTranByAccID($user->getAccByUserID($user->data()->ID)->ID));
+        for($i = 0; $i < count($transactions);$i++){
+            echo '<tr>
+                    <th scope="row">1</th>
+                    <td>'. $transactions[$i][5] .' </td>
+                    <td>'. $transactions[$i][2] .'</td>
+                    <td>'. $transactions[$i][4]. '</td>
+                    <td>@mdo</td>
+                  </tr>';
+        }
+    ?>
   </tbody>
 </table>
     </div>
