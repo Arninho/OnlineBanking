@@ -69,7 +69,7 @@ class User {
             $data = $this->_db->get('accounts', array('User_ID', '=', $userid));
 
             if ($data->count()) {
-               return $data->result();
+               return $data->result()->fetch_all();
             }
         }
         return $data->result();

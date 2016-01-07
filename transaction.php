@@ -89,9 +89,12 @@ if (!$user->isLoggedIn()) {
                                 <select id="ddlMyAccounts" name="ddlMyAccounts" class="form-control">
                                     <option <?php echo Input::get('ddlMyAccounts') == "" ? 'selected' : ''; ?> value="">-- Vállaszon --</option>
                                     <?php
-                                    while($row = mysqli_fetch_array($user->getAccounts($user->data()->ID))) {
-                                        echo "<option". Input::get('ddlMyAccounts') == "" ? 'selected' : ''. " value='".$row["$ID"]."'>".$row["$ID"]."</option>";
-                                    } ?>
+                                    $accounts = $user->getAccounts($user->data()->ID);
+                                    for($i = 0; $i < count($accounts);$i++){
+                                        $selected = Input::get('ddlMyAccounts') == $accounts[$i][0] ? 'selected' : '';
+                                        echo "<option ". $selected . " value=".$accounts[$i][0].">".$accounts[$i][1]."</option>";
+                                    }
+                                     ?>
                                 </select>
                             </div>
                         </div>
