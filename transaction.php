@@ -28,32 +28,31 @@ if (Input::exists()) {
         ));
         if ($validation->passed()) {
             if(Input::get('amount') <= $user->getAccAmount(Input::get('ddlMyAccounts'))){
-            $transactionid = $user->getTranByUserID($user->data()->ID);
+            $transactionid = $user->getTranByAccID(Input::get('ddlMyAccounts'));
             if(Input::get('ddlAccountTypes') == "accountid"){
             $toaccid = $user->getAccByCode(Input::get('accountid'));
-            $touserid = $user->getUserByAccID($toaccid);
-            $totranid = $user->getTranByUserID($touserid);
+            $totranid = $user->getTranByAccID($toaccid);
             }
             else if(Input::get('ddlAccountTypes') == "contact"){
                 $toaccid = $user->getAccByUserID(Input::get('ddlContacts'));
-                $totranid = $user->getTranByUserID(Input::get('ddlContacts'));
+                $totranid = $user->getTranByAccID(Input::get('ddlContacts'));
             }
             $senderaccid = $user->getAccByUserID(Input::get('ddlMyAccounts'));
             if($toaccid != 0){
                 $user->send(array(
-                    'Transaction_ID' => $transactionid,
-                    'Account_ID' => $toaccid,
+                    'Transaction_ID' => $transactionid->ID,
+                    'Account_ID' => $toaccid->ID,
                     'When' => date(DATE_ATOM),
                     'Amount' => Input::get('amount'),
-                    'IsIncome' => false,
+                    'IsIncome' => 0,
                     'Description' => Input::get('description')
                 ));
                 $user->send(array(
-                    'Transaction_ID' => $totranid,
-                    'Account_ID' => $senderaccid,
+                    'Transaction_ID' => $totranid->ID,
+                    'Account_ID' => $senderaccid->ID,
                     'When' => date(DATE_ATOM),
                     'Amount' => Input::get('amount'),
-                    'IsIncome' => true,
+                    'IsIncome' => 1,
                     'Description' => Input::get('description')
                 ));
                 Session::flash('home', 'Tranzakció sikeresen végrehajtva !');

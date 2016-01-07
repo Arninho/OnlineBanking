@@ -26,7 +26,7 @@ class DB {
 
     public function query($sql, $params = array()) {
         $this->error = false;
-        //mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         if ($this->_query = $this->_con->prepare($sql)) {
             $types = '';
             if (count($params)) {

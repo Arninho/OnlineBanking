@@ -1,5 +1,4 @@
 <?php
-
 require_once 'core/init.php';
 
 $user = new User();
@@ -7,9 +6,23 @@ $user = new User();
 if (!$user->isLoggedIn()) {
     Redirect::to('index.php');
 } else {
-        $data = $user->data();
+    $data = $user->data();
     ?>
     <div class="transcationForm">
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="col-xs-12">
+                    <tr>
+                        <td>
+                            Név
+                        </td> 
+                        <td>
+                            Számlaszám
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-12">
                 <form action="" method="post">
@@ -37,6 +50,6 @@ if (!$user->isLoggedIn()) {
             </div>
         </div>
     </div>
-<?php
+    <?php
 }
 ?>

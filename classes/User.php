@@ -46,7 +46,7 @@ class User {
     }
     
     public function send($fields = array()) {
-        if (!$this->_db->insert('accountitems', $fields)) {
+        if (!$this->_db->insert('transactionitems', $fields)) {
             throw new Exception('There was a problem with inserting transactionitem.');
         }
     }
@@ -97,9 +97,9 @@ class User {
         return 0;
     }
 
-    public function getTranByUserID($userid){
-        if ($userid) {
-            $data = $this->_db->getID('transaction', array('User_ID', '=', $userid));
+    public function getTranByAccID($accid){
+        if ($accid) {
+            $data = $this->_db->getID('transactions', array('Account_ID', '=', $accid));
 
             if ($data->count()) {
                return $data->result()->fetch_object();
