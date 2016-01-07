@@ -64,6 +64,28 @@ class User {
         return false;
     }
     
+    public function getAccounts($userid){
+     if ($userid) {
+            $data = $this->_db->get('accounts', array('User_ID', '=', $userid));
+
+            if ($data->count()) {
+               return $data->result();
+            }
+        }
+        return $data->result();
+    }
+    
+    public function getTansactions($tranid){
+     if ($tranid) {
+            $data = $this->_db->get('transactionitems', array('Transaction_ID', '=', $tranid));
+
+            if ($data->count()) {
+               return $data->result();
+            }
+        }
+        return $data->result();
+    }
+    
     public function getAccAmount($accid){
         if ($accid) {
             $data = $this->_db->getAmount('accounts', array('ID', '=', $accid));

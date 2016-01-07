@@ -88,7 +88,10 @@ if (!$user->isLoggedIn()) {
                                 <label for="ddlMyAccounts">Saját számla:</label>
                                 <select id="ddlMyAccounts" name="ddlMyAccounts" class="form-control">
                                     <option <?php echo Input::get('ddlMyAccounts') == "" ? 'selected' : ''; ?> value="">-- Vállaszon --</option>
-                                    <option <?php echo Input::get('ddlMyAccounts') == "1" ? 'selected' : ''; ?> value="1">-- ezzz --</option>
+                                    <?php
+                                    while($row = mysqli_fetch_array($user->getAccounts($user->data()->ID))) {
+                                        echo "<option". Input::get('ddlMyAccounts') == "" ? 'selected' : ''. " value='$row[$ID]'>$row[$ID]</option>";
+                                    } ?>
                                 </select>
                             </div>
                         </div>
