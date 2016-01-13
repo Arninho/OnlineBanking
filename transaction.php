@@ -34,7 +34,7 @@ if (Input::exists()) {
             $totranid = $user->getTranByAccID($toaccid->ID);
             }
             else if(Input::get('ddlAccountTypes') == "contact"){
-                $toaccid = $user->getAccByUserID(Input::get('ddlContacts'));
+                $toaccid = $user->getAccByCode(Input::get('ddlContacts'));
                 $totranid = $user->getTranByAccID($toaccid->ID);
             }
             $senderaccid = Input::get('ddlMyAccounts');
@@ -121,7 +121,16 @@ if (!$user->isLoggedIn()) {
                             <div class="col-md-6">
                                 <div class="field form-group">
                                     <label for="contact">Személy:</label>
-                                    <select id='ddlContacts' name="ddlContacts" class="form-control"></select>
+                                    <select id='ddlContacts' name="ddlContacts" class="form-control">
+                                    <option <?php echo Input::get('ddlContacts') == "" ? 'selected' : ''; ?> value="">-- Vállaszon --</option>
+                                    <?php
+                                    $contacts = $user->getContacts($user->data()->ID);
+                                    for($i = 0; $i < count($contacts);$i++){
+                                        $selected = Input::get('ddlContacts') == $contacts[$i][2] ? 'selected' : '';
+                                        echo "<option ". $selected . " value=".$contacts[$i][2].">".$contacts[$i][3]."</option>";
+                                    }
+                                     ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>

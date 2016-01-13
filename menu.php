@@ -38,11 +38,11 @@ if ($user->isLoggedIn()) {
                 break;
             case 3: include("transaction.php");
                 break;
-            default: include("profile.php");
+            default: include("summary.php");
                 break;
         }
     }else{
-        include("profile.php");
+        include("summary.php");
     }
         
     ?>

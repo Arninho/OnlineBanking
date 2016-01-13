@@ -45,9 +45,21 @@ class User {
         }
     }
     
+    public function delete($id){
+        if (!$this->_db->delete('contactitems',  array('ID', '=', $id))) {
+            throw new Exception('There was a problem deleting a contactitem.');
+        }
+    }
+    
     public function send($fields = array()) {
         if (!$this->_db->insert('transactionitems', $fields)) {
             throw new Exception('There was a problem with inserting transactionitem.');
+        }
+    }
+    
+    public function addContact($fields = array()){
+        if (!$this->_db->insert('contactitems', $fields)) {
+            throw new Exception('There was a problem with inserting contactitem.');
         }
     }
 
@@ -72,7 +84,7 @@ class User {
                return $data->result()->fetch_all();
             }
         }
-        return $data->result();
+        return array();
     }
     
     public function getTransactions($tranid){
@@ -83,12 +95,34 @@ class User {
                return $data->result()->fetch_all();
             }
         }
-        return $data->result();
+        return array();
+    }
+    
+    public function getContacts($userid){
+     if ($userid) {
+            $data = $this->_db->get('contactitems ci LEFT JOIN contacts c on c.ID = ci.Contacts_ID', array('c.User_ID', '=', $userid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_all();
+            }
+        }
+        return array();
     }
     
     public function getAccAmount($accid){
         if ($accid) {
             $data = $this->_db->getAmount('accounts', array('ID', '=', $accid));
+
+            if ($data->count()) {
+               return $data->result()->fetch_object();
+            }
+        }
+        return 0;
+    }
+    
+    public function getContactListID($userid){
+        if ($userid) {
+            $data = $this->_db->getID('contacts', array('User_ID', '=', $userid));
 
             if ($data->count()) {
                return $data->result()->fetch_object();
