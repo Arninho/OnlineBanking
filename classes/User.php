@@ -138,6 +138,17 @@ class User {
         }
         return 0;
     }
+    
+    public function getUserByID($id){
+        if($id){
+            $data = $this->_db->get('users', array('ID','=', $id));
+            
+            if($data->count()){
+                return $data->result()->fetch_object();
+            }
+        }
+        return '';
+    }
 
 
     public function getAccByCode($code){

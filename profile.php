@@ -14,16 +14,16 @@ if (!isset($username)) {
     }
     ?>
     <div class="profilform">
-        <h1>Felhasználónév : <?php echo escape($data->UserName); ?></h1>
-        <h3> Teljes Név : <?php echo escape($data->FirstName) . ' ' . escape($data->LastName); ?></h3>
+        <h2><?php echo escape($data->FirstName) . ' ' . escape($data->LastName); ?></h3>
+        <h4>Egyenleg: <?php echo escape($user->getAccAmount($user->getAccByUserID($data->ID)->ID)->Amount) . ' RON'; ?></h5>
        <table class="table">
   <thead class="table-invers">
     <tr>
       <th>#</th>
-      <th>Név</th>
       <th>Irány</th>
       <th>Ügyfél</th>
       <th>Összeg</th>
+      <th>Leírás</th>
     </tr>
   </thead>
   <tbody>
@@ -31,14 +31,16 @@ if (!isset($username)) {
       $accid = $user->getAccByUserID($user->data()->ID);
       $tranid = $user->getTranByAccID($accid->ID);
         $transactions = $user->getTransactions($tranid->ID);
-        $ugyfel=$user->getUserByAccID($transactions->Account_ID);
+        
         for($i = 0; $i < count($transactions);$i++){
+            $lugyfel = $user->getUserByAccID($transactions[$i][2]);
+            $ugyfel = $user->getUserByID($lugyfel->User_ID);
             echo '<tr>
                     <th scope="row">'.($i+1).'</th>
-                    <td>'. $data->UserName .'</td>
                     <td>'. ($transactions[$i][5] == 0 ? '<i class="fa fa-arrow-right"></i>' : '<i class="fa fa-arrow-left"></i>') .' </td>
-                    <td>'. $ugyfel[$i][1] .'</td>
-                    <td>'. $transactions[$i][4]. '</td>
+                    <td>'. $ugyfel->LastName .' '. $ugyfel->FirstName .'</td>
+                    <td>'. $transactions[$i][4]. ' RON</td>
+                    <td>'. $transactions[$i][6]. '</td>
                   </tr>';
         }
     ?>
