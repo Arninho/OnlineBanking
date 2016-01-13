@@ -20,7 +20,7 @@ if (!isset($username)) {
   <thead class="table-invers">
     <tr>
       <th>#</th>
-      <th></th>
+      <th>Név</th>
       <th>Irány</th>
       <th>Ügyfél</th>
       <th>Összeg</th>
@@ -31,11 +31,13 @@ if (!isset($username)) {
       $accid = $user->getAccByUserID($user->data()->ID);
       $tranid = $user->getTranByAccID($accid->ID);
         $transactions = $user->getTransactions($tranid->ID);
+        $ugyfel=$user->getUserByAccID($transactions->Account_ID);
         for($i = 0; $i < count($transactions);$i++){
             echo '<tr>
-                    <th scope="row">'.($i+1).'</th><td></td>
-                    <td>'. ($transactions[$i][5] == 0 ? 'ki' : 'be') .' </td>
-                    <td>'. $transactions[$i][2] .'</td>
+                    <th scope="row">'.($i+1).'</th>
+                    <td>'. $data->UserName .'</td>
+                    <td>'. ($transactions[$i][5] == 0 ? '<i class="fa fa-arrow-right"></i>' : '<i class="fa fa-arrow-left"></i>') .' </td>
+                    <td>'. $ugyfel[$i][1] .'</td>
                     <td>'. $transactions[$i][4]. '</td>
                   </tr>';
         }
